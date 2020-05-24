@@ -4,13 +4,15 @@ const port = 3000
 
 var list = [];
 
-app.use('/', express.static('public'))
+app.get('/', (req, res) => {
+    res.send({entries:["Hallo!", "Was geht bei euch?", "nix, bei euch?"]})
+})
 
 app.get('/entries', (req, res) => {
     res.send({entries:["Hallo!", "Was geht bei euch?", "nix, bei euch?"]})
 })
 
-app.post('/entry', (req, res) => {
+app.post('/test', (req, res) => {
     list.push("test")
     console.log(list)
     res.send("ok")

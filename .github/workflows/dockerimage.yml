@@ -13,8 +13,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag docker.pkg.github.com/dbene/continuousx/gaestebuch:1.0
-    - name: Push the Docker image
-      run: docker push docker.pkg.github.com/dbene/continuousx/gaestebuch:1.0
+      ‐ name: build
+        id: build
+        uses: docker/build-action@v1
+        with:
+          repository: myorg/myrepo
+          tags: v1
+      ‐ name: login
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ DOCKER_USERNAME }}
+          password: ${{ DOCKER_PASSWORD }}
+      ‐ name: push
+        uses: docker/push-action@v1
+        with:
+          registry: docker.pkg.github.com
+          tags: ${{ outputs.build.tags }}
