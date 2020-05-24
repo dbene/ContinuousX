@@ -18,6 +18,10 @@ jobs:
       - uses: actions/checkout@v1
       - name: Login to DockerHub Registry
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Build the tagged Docker image
+        run: docker build . --file Dockerfile --tag dasbene/continuousx:$
+      - name: Push the tagged Docker image
+        run: docker push dasbene/continuousx:$
       - name: Build the latest Docker image
         run: docker build . --file Dockerfile --tag dasbene/continuousx:latest
       - name: Push the latest Docker image
